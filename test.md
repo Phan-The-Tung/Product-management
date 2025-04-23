@@ -1,3 +1,0 @@
-hello
-skdjashd
-áhdjahgsd
