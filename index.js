@@ -3,6 +3,7 @@ require("dotenv").config();
 
 const database = require("./config/database");
 const route = require("./routes/client/index.route");
+const routeAdmin = require("./routes/admin/index.route");
  
 
  
@@ -21,7 +22,7 @@ app.set("view engine", "pug");
 app.use(express.static("public"));
 
 route(app);
-
+routeAdmin(app);
 
 
 
