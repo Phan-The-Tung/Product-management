@@ -6,10 +6,9 @@ if (buttonsStatus.length > 0) {
   buttonsStatus.forEach(button => {
     button.addEventListener("click", () => {
       const status = button.getAttribute("button-status");
-
       if (status) {
         url.searchParams.set("status", status);
-      } else {
+      } else{
         url.searchParams.delete("status");
       }
 
@@ -32,7 +31,7 @@ if (formSearch) {
     } else {
       url.searchParams.delete("keyword");
     }
-
+     
     window.location.href = url.href;
   });
 }
