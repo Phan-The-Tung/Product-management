@@ -1,6 +1,7 @@
 extends ../../layouts/default.pug
 include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
+include ../../mixins/pagination.pug
 
 block main
   h1 Danh sách sản phẩm
@@ -9,7 +10,7 @@ block main
     .card-header Bộ lọc và Tìm kiếm
     .card-body
       .row
-        .col-6
+        .col-6 
           +filter-status(filterStatus)
         .col-6
           +search(keyword)
@@ -52,6 +53,7 @@ block main
                   a(href="#" class="btn btn-warning btn-sm") Sửa
                   a(href="#" class="btn btn-danger btn-sm ml-1") Xóa
 
+  //- +pagination(pagination)
   nav   
     ul(class="pagination")
 
