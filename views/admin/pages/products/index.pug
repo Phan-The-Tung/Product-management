@@ -46,38 +46,57 @@ block main
                 td  #{item.price}$
                 td 
                   if(item.status == "active")
-                    a(href="#" class="badge badge-success") Hoạt động
+                    a(
+                      href="javascript:;" 
+                      class="badge badge-success"
+                      button-change-status
+                      data-status= item.status
+                      data-id= item.id
+                    ) Hoạt động
                   else
-                    a(href="#" class="badge badge-danger") Dừng hoạt động
+                    a(
+                      href="javascript:;" 
+                      class="badge badge-danger"
+                      button-change-status
+                      data-id = item.id
+                      data-status= item.status
+                    ) Dừng hoạt động
                 td 
                   a(href="#" class="btn btn-warning btn-sm") Sửa
                   a(href="#" class="btn btn-danger btn-sm ml-1") Xóa
 
-  //- +pagination(pagination)
-  nav   
-    ul(class="pagination")
+  +pagination(pagination)
+  //- nav   
+  //-   ul(class="pagination")
 
-      if(pagination.currentPage > 1)
-        li(class="page-item")
-          button(
-            class="page-link"
-            button-pagination= pagination.currentPage - 1
-          ) Trang trước
+  //-     if(pagination.currentPage > 1)
+  //-       li(class="page-item")
+  //-         button(
+  //-           class="page-link"
+  //-           button-pagination= pagination.currentPage - 1
+  //-         ) Trang trước
 
-      - for(var i = 1; i <= pagination.totalPage; i++)
-        li(class=`page-item ${i == pagination.currentPage ? "active" : ""}`)
-          button(
-            class="page-link"
-            button-pagination= i
-          ) #{i}
+  //-     - for(var i = 1; i <= pagination.totalPage; i++)
+  //-       li(class=`page-item ${i == pagination.currentPage ? "active" : ""}`)
+  //-         button(
+  //-           class="page-link"
+  //-           button-pagination= i
+  //-         ) #{i}
 
-      if(pagination.currentPage < pagination.totalPage)
-        li(class="page-item")
-          button(
-            class="page-link"
-            button-pagination= pagination.currentPage + 1
-          ) Trang tiếp
-       
+  //-     if(pagination.currentPage < pagination.totalPage)
+  //-       li(class="page-item")
+  //-         button(
+  //-           class="page-link"
+  //-           button-pagination= pagination.currentPage + 1
+  //-         ) Trang tiếp
+  
+  form(
+    action=""
+    method="GET"
+    id="form-change-status"
+    data-path= `${prefixAdmin}/products/change-status`
+  )
+  script(src="/admin/js/product.js")
        
        
 

@@ -3,6 +3,8 @@ const filterStatusHelpers = require("../../helpers/filterStatus");
 const paginationHelpers = require("../../helpers/pagination");
 const searchHelpers = require("../../helpers/search");
 
+
+
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelpers(req.query);
   
@@ -36,19 +38,6 @@ module.exports.index = async (req, res) => {
     countProducts
    );
 
-  // if(req.query.page){
-  //   objectPagination.currentPage = parseInt(req.query.page);
-  // }
-
-  //  objectPagination.skip = (objectPagination.currentPage - 1) * objectPagination.limitItems;
-
-  //   const countProducts = await Product.countDocuments(find);
-  //   const totalPages = Math.ceil(countProducts / objectPagination.limitItems);
-  //   objectPagination.totalPage = totalPages;
-
-  //   console.log(objectPagination.totalPage);
-
-
 
   //End phân trang
 
@@ -64,6 +53,14 @@ module.exports.index = async (req, res) => {
     keyword: objectSearch.keyword,
     pagination: objectPagination
   });
+};
+
+ module.exports.changeStatus = async(req, res) => {
+  const status = req.params.status;
+  const id = req.params.id;
+
+  await Product.updateOne({ _id: id}, { status: status});
+  res.redirect("back");
 };
 
 
