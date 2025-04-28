@@ -3,9 +3,9 @@ const filterStatusHelpers = require("../../helpers/filterStatus");
 const searchHelpers = require("../../helpers/search");
 
 module.exports.index = async (req, res) => {
-  let filterStatus = filterStatusHelpers(req.query);
+  const filterStatus = filterStatusHelpers(req.query);
   
-  let objectSearch = searchHelpers(req.query);
+  const objectSearch = searchHelpers(req.query);
 
 
 
@@ -23,7 +23,29 @@ module.exports.index = async (req, res) => {
     find.title = objectSearch.regex;
   }
 
-  const products = await Product.find(find);
+  //Phân trang
+  let objectPagination ={
+    currentPage: 1,
+    limitItems: 4
+  };
+
+  if(req.query.page){
+    objectPagination.currentPage = parseInt(req.query.page);
+  }
+
+   objectPagination.skip = (objectPagination.currentPage - 1) * objectPagination.limitItems;
+
+    const countProducts = await Product.countDocuments(find);
+    const totalPages = Math.ceil(countProducts / objectPagination.limitItems);
+    objectPagination.totalPage = totalPages;
+
+    console.log(objectPagination.totalPage);
+
+
+
+  //End phân trang
+
+  const products = await Product.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip);
 
    
   console.log(products);
@@ -32,7 +54,8 @@ module.exports.index = async (req, res) => {
     pageTitle: "Danh sách sản phẩm",
     products: products,
     filterStatus: filterStatus,
-    keyword: objectSearch.keyword
+    keyword: objectSearch.keyword,
+    pagination: objectPagination
   });
 };
 

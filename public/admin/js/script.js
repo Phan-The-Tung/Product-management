@@ -38,6 +38,20 @@ if (formSearch) {
 // End Form Search
 
 
+// Button Pagination
+const buttonsPagination = document.querySelectorAll("[button-pagination]");
+if(buttonsPagination){
+  buttonsPagination.forEach(button => {
+    button.addEventListener("click", () => {
+      const page = button.getAttribute("button-pagination");
+      url.searchParams.set("page", page);
+       window.location.href = url.href;
+    })
+  })
+}
+
+//End Button Pagination
+
 
 
 
