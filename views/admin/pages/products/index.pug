@@ -66,33 +66,10 @@ block main
                   a(href="#" class="btn btn-danger btn-sm ml-1") Xóa
 
   +pagination(pagination)
-  //- nav   
-  //-   ul(class="pagination")
-
-  //-     if(pagination.currentPage > 1)
-  //-       li(class="page-item")
-  //-         button(
-  //-           class="page-link"
-  //-           button-pagination= pagination.currentPage - 1
-  //-         ) Trang trước
-
-  //-     - for(var i = 1; i <= pagination.totalPage; i++)
-  //-       li(class=`page-item ${i == pagination.currentPage ? "active" : ""}`)
-  //-         button(
-  //-           class="page-link"
-  //-           button-pagination= i
-  //-         ) #{i}
-
-  //-     if(pagination.currentPage < pagination.totalPage)
-  //-       li(class="page-item")
-  //-         button(
-  //-           class="page-link"
-  //-           button-pagination= pagination.currentPage + 1
-  //-         ) Trang tiếp
-  
+   
   form(
     action=""
-    method="GET"
+    method="POST"
     id="form-change-status"
     data-path= `${prefixAdmin}/products/change-status`
   )

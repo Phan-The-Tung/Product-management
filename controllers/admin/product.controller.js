@@ -5,6 +5,7 @@ const searchHelpers = require("../../helpers/search");
 
 
 
+
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelpers(req.query);
   
@@ -59,8 +60,12 @@ module.exports.index = async (req, res) => {
   const status = req.params.status;
   const id = req.params.id;
 
+  const back = req.get("referer");
+
   await Product.updateOne({ _id: id}, { status: status});
-  res.redirect("back");
+  res.redirect(back);
+   
+
 };
 
 
