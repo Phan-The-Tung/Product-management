@@ -4,7 +4,7 @@ const paginationHelpers = require("../../helpers/pagination");
 const searchHelpers = require("../../helpers/search");
 
 
-
+// [GET]/admin/products
 
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelpers(req.query);
@@ -12,8 +12,6 @@ module.exports.index = async (req, res) => {
   const objectSearch = searchHelpers(req.query);
 
 
-
-   
   let find ={
     deleted: false,
   };
@@ -56,6 +54,8 @@ module.exports.index = async (req, res) => {
   });
 };
 
+// [PATCH]/change-status/:status/:id
+
  module.exports.changeStatus = async(req, res) => {
   const status = req.params.status;
   const id = req.params.id;
@@ -67,6 +67,8 @@ module.exports.index = async (req, res) => {
    
 
 };
+
+// [PATCH]/change-multi
 
 module.exports.changeMulti = async(req, res) => {
    const type = req.body.type;
@@ -85,5 +87,15 @@ module.exports.changeMulti = async(req, res) => {
 
    res.redirect(req.get("referer"));
 };
+
+// [DELETE]/delete/:id
+
+module.exports.deleteItem = async(req, res) => {
+   const id = req.params.id;
+    
+   await Product.deleteOne({_id: id});
+
+   res.redirect(req.get("referer"));
+}
 
 
