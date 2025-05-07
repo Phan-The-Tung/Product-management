@@ -119,11 +119,18 @@ if (formChangeMulti) {
 
       inputsChecked.forEach(input => {
         const id = input.getAttribute("value");
-        ids.push(id);
+        if(type == "change-position"){
+          const position = input
+            .closest("tr")
+            .querySelector("input[name='position']").value;
+          ids.push(`${id}-${position}`);
+        }else{
+          ids.push(id);
+        }
       });
 
       inputIds.value = ids.join(", ");
-      console.log(inputIds.value);
+      // console.log(inputIds.value);
       formChangeMulti.submit();
     } else {
       alert("Vui lòng chọn ít nhất một bản ghi!");
