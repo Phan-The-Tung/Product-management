@@ -115,6 +115,7 @@ module.exports.deleteItem = async(req, res) => {
     
   //  await Product.deleteOne({_id: id});
   await Product.updateOne({_id: id}, {deleted: true},{deletedAt: new Date()});
+  req.flash("success", "Xóa sản phẩm thành công");
 
    res.redirect(req.get("referer"));
 }
