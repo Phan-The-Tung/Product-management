@@ -8,9 +8,11 @@ const searchHelpers = require("../../helpers/search");
 
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelpers(req.query);
+
+   
   
   const objectSearch = searchHelpers(req.query);
-
+ 
 
   let find ={
     deleted: false,
@@ -120,4 +122,33 @@ module.exports.deleteItem = async(req, res) => {
    res.redirect(req.get("referer"));
 }
 
+// [GET]/admin/products/create
+
+module.exports.create = async(req, res) => {
+  res.render("admin/pages/products/create", {
+    pageTitle: "Thêm sản phẩm"
+  });
+}
+
+
+module.exports.createPost = async(req, res) => {
+  req.body.price = parseInt(req.body.price);
+  req.body.discountPercentage = parseInt(req.body.discountPercentage);
+  req.body.stock = parseInt(req.body.stock);
+
+  if(req.body.position == ""){
+    const countProducts = await Product.countDocuments();
+    req.body.position = countProducts + 1;
+  } else {
+    req.body.position = parseInt(req.body.position);
+  }
+
+  const product = new Product(req.body);
+  await product.save();
+
+  res.redirect(req.get("referer"));
+
+
+  
+}
 
