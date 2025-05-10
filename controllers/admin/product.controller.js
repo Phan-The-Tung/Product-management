@@ -10,6 +10,8 @@ module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelpers(req.query);
 
    
+
+   
   
   const objectSearch = searchHelpers(req.query);
  
@@ -151,9 +153,6 @@ module.exports.createPost = async(req, res) => {
 
   res.redirect(req.get("referer"));
   
-
-
-
-  
 }
+
 
