@@ -178,7 +178,7 @@ module.exports.edit = async(req, res) => {
     });
     
   } catch (error) {
-    req.flash("error", "Sua sản phẩm loi");
+    req.flash("error", "Sửa sản phẩm lỗi");
     res.redirect(`${systemConfig.prefixAdmin}/products`);
      
   }
@@ -204,15 +204,40 @@ module.exports.editPatch = async(req, res) => {
 
    try {
     await Product.updateOne({_id: req.params.id}, req.body);
-    req.flash("success", "Sua sản phẩm thành công");
+    req.flash("success", "Sửa sản phẩm thành công");
    } catch (error) {
-    req.flash("error", "Sua sản phẩm thất bại");
+    req.flash("error", "Sửa sản phẩm thất bại");
     
    }
 
   // res.redirect(req.get("referer"));
   
   res.redirect(req.get("referer"));
+
+   
+}
+
+
+// [GET]/admin/products/detail/:id
+module.exports.detail = async(req, res) => {
+  try {
+    const find = {
+      deleted: false,
+      _id: req.params.id
+    };
+  
+    const product = await Product.findOne(find);
+  
+    res.render("admin/pages/products/detail", {
+      pageTitle: product.title,
+      product: product
+    });
+    
+  } catch (error) {
+    req.flash("error", "Chi tiết  sản phẩm lỗi");
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
+     
+  }
 
    
 }
