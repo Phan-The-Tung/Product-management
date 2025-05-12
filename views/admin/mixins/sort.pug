@@ -1,0 +1,18 @@
+mixin sort()
+  div(sort)
+    select(
+        class="form-control"
+        name="sort"
+        sort-select
+    )
+      option(value="position-desc") Vi tri giam dan 
+      option(value="position-asc") vi tri tang dan 
+      option(value="price-desc") Gia giam dan 
+      option(value="price-asc") vi tri tang dan 
+      option(value="title-desc")  Tieu de A - Z 
+      option(value="title-asc") Tieu de Z - A 
+
+    button(
+        class="btn btn-danger mt-2"
+        sort-clear
+    ) Clear

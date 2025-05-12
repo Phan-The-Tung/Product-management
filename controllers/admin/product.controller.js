@@ -11,9 +11,6 @@ module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelpers(req.query);
 
    
-
-   
-  
   const objectSearch = searchHelpers(req.query);
  
 
@@ -45,8 +42,19 @@ module.exports.index = async (req, res) => {
 
   //End phân trang
 
+
+  //Sort
+  let sort = {};
+
+  if(req.query.sortKey && req.query.sortValue) {
+    sort[req.query.sortKey] = req.query.sortValue;
+  } else {
+    sort.position = "desc";
+  }
+  //End Sort
+
   const products = await Product.find(find)
-    .sort({position: "desc"})
+    .sort(sort)
     .limit(objectPagination.limitItems)
     .skip(objectPagination.skip);
 
@@ -198,10 +206,7 @@ module.exports.editPatch = async(req, res) => {
 
    
 
-   if(req.file) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`;
-   }
-
+ 
    try {
     await Product.updateOne({_id: req.params.id}, req.body);
     req.flash("success", "Sửa sản phẩm thành công");
