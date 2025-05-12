@@ -23,7 +23,7 @@ module.exports.index = async (req, res) => {
 
 
 
-// [GET]/product/:slug
+// [GET]/product/detail/:slug
 module.exports.detail = async (req, res) => {
   try {
     const find = {
