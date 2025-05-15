@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const flash = require("express-flash");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 const database = require("./config/database");
 const route = require("./routes/client/index.route");
@@ -26,15 +27,22 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
-app.set("views", `${_dirname}/views`);
+// app.set("views", `${_dirname}/views`);
+app.set("views", "./views");
 app.set("view engine", "pug");
 
 app.use(cookieParser("keyboard cat"));
 app.use(session({cookie: {maxAge: 60000}}));
 app.use(flash());
 
+//TinyMCE
+app.use("/tinymce", express.static(path.join("node_modules", "tinymce")));
+
+
+//End TinyMCE
+
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
-app.use(express.static(`${_dirname}/public`));
+app.use(express.static("public"));
 
 route(app);
 routeAdmin(app);

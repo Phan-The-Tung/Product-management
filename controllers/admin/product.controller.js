@@ -154,7 +154,7 @@ module.exports.createPost = async(req, res) => {
   } else {
     req.body.position = parseInt(req.body.position);
   }
-
+ 
    
 
   const product = new Product(req.body);
