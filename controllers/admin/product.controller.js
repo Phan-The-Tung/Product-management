@@ -180,7 +180,7 @@ module.exports.createPost = async(req, res) => {
   res.redirect(`${systemConfig.prefixAdmin}/products`);
 
   
-}
+}       
 
 
 // [GET]/admin/products/edit/:id
@@ -192,10 +192,18 @@ module.exports.edit = async(req, res) => {
     };
   
     const product = await Product.findOne(find);
-  
+
+    const category = await ProductCategory.find({
+      deleted: false,
+    });
+
+    const newCategory = createTreeHelper.tree(category);
+
+
     res.render("admin/pages/products/edit", {
       pageTitle: "Chỉnh sửa sản phẩm",
-      product: product
+      product: product,
+      category: newCategory
     });
     
   } catch (error) {
