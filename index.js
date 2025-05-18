@@ -24,7 +24,7 @@ app.use(methodOverride("_method"));
 
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 
 // app.set("views", `${_dirname}/views`);
