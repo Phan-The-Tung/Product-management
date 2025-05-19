@@ -3,6 +3,7 @@ const filterStatusHelpers = require("../../helpers/filterStatus");
 const paginationHelpers = require("../../helpers/pagination");
 const searchHelpers = require("../../helpers/search");
 const systemConfig = require("../../config/system");
+const Account = require("../../models/account.model");
 
 const ProductCategory = require("../../models/product-category.model");
  
@@ -65,6 +66,15 @@ module.exports.index = async (req, res) => {
 
    
   // console.log(products);
+  for(const product of products) {
+    const user = await Account.findOne({
+      _id: product.createdBy.account_id
+    });
+
+    if(user) {
+      product.accountFullName = user.fullName;
+    }
+  }
 
   res.render("admin/pages/products/index", {
     pageTitle: "Danh sách sản phẩm",
@@ -169,6 +179,10 @@ module.exports.createPost = async(req, res) => {
   } else {
     req.body.position = parseInt(req.body.position);
   }
+
+  req.body.createdBy = {
+    account_id: res.locals.user.id
+  };
  
    
 

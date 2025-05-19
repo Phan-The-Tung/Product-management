@@ -7,6 +7,7 @@ const flash = require("express-flash");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const moment = require("moment");
 
 const database = require("./config/database");
 const route = require("./routes/client/index.route");
@@ -40,7 +41,7 @@ app.use("/tinymce", express.static(path.join("node_modules", "tinymce")));
 
 
 //End TinyMCE
-
+app.locals.moment = moment;
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 app.use(express.static("public"));
 
