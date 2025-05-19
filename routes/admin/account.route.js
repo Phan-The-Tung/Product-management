@@ -14,6 +14,18 @@ router.post("/create",
     upload.single("avatar"), 
     uploadCloud.upload,
     validates.createPost,
-    controllers.createPost);
+    controllers.createPost
+);
+    
+router.get("/edit/:id", controllers.edit);
+
+router.patch("/edit/:id",
+    upload.single("avatar"), 
+    uploadCloud.upload,
+    validates.editPatch,
+    controllers.editPatch
+);
+
+
 
 module.exports = router;
