@@ -3,6 +3,7 @@ include ../../mixins/alert.pug
 include ../../mixins/select-tree.pug
 
 block main 
+  if(role.permissions.includes("products-category_create"))    
     +alert-error(5000)
 
 
