@@ -9,6 +9,12 @@ const validates = require("../../validates/admin/product-category.validate");
 
 router.get("/", controllers.index);
 
+router.patch("/change-status/:status/:id", controllers.changeStatus);
+
+router.patch("/change-multi", controllers.changeMulti);
+
+router.delete("/delete/:id", controllers.deleteItem);
+
 router.get("/create", controllers.create);
 
 router.post("/create", 

@@ -19,15 +19,25 @@ const productCategorySchema = new mongoose.Schema({
     slug: "title",
     unique: true
   },
+  createdBy: {
+    account_id: String,
+    createdAt: {
+      type: Date,
+      default: Date.now
+      }},
   deleted: {
     type: Boolean,
     default: false
   }, 
+  deletedBy: {
+    account_id: String,
+    deletedAt: Date
+  },
   deletedAt: Date
 },{
   timestamps: true
 });
 
-const ProductCategory = mongoose.model("ProductCategoty", productCategorySchema, "products-category");
+const ProductCategory = mongoose.model("ProductCategory", productCategorySchema, "products-category");
 
 module.exports = ProductCategory;

@@ -43,6 +43,7 @@ app.use("/tinymce", express.static(path.join("node_modules", "tinymce")));
 //End TinyMCE
 app.locals.moment = moment;
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
+app.locals.count = 0;
 app.use(express.static("public"));
 
 route(app);

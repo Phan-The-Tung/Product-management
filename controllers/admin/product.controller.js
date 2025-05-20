@@ -76,6 +76,8 @@ module.exports.index = async (req, res) => {
     }
   }
 
+  console.log(res.locals.role);
+
   res.render("admin/pages/products/index", {
     pageTitle: "Danh sách sản phẩm",
     products: products,
