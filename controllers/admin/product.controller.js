@@ -87,7 +87,7 @@ module.exports.index = async (req, res) => {
     }
   }
 
-  console.log(res.locals.role);
+  console.log(products);
 
   res.render("admin/pages/products/index", {
     pageTitle: "Danh sách sản phẩm",
@@ -216,7 +216,8 @@ module.exports.createPost = async(req, res) => {
   }
 
   req.body.createdBy = {
-    account_id: res.locals.user.id
+    account_id: res.locals.user.id,
+    createdAt: new Date()
   };
  
    
