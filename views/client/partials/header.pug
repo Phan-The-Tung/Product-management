@@ -34,18 +34,5 @@ header.header
               - const pathProduct = "/product";
               a(href=pathProduct) Sản phẩm
                 +sub-menu(layoutProductsCategory, pathProduct)
-              //- ul
-              //-   li
-              //-     a(href="/products/slug-1") Mục 1
-              //-     ul
-              //-       li
-              //-         a(href="/products/slug-1-1") Mục 1 - 1
-              //-       li
-              //-         a(href="/products/slug-1-2") Mục 1 - 2
-              //-         ul
-              //-           li
-              //-             a(href="/products/slug-1-2-1") Mục 1 - 2 - 1
-              //-           li
-              //-             a(href="/products/slug-1-2-2") Mục 1 - 2 - 2
-              //-   li
-              //-     a(href="/products/slug-2") Mục 2
+            li 
+              a(href="/cart") giỏ hàng (#{miniCart ? miniCart.totalQuantity : 0})
