@@ -9,8 +9,12 @@ router.get("/login",controllers.login );
 
 router.get("/logout",controllers.logout );
 
+router.get("/password/forgot",controllers.forgotPassword );
+
 router.post("/register", validate.registerPost, controllers.registerPost );
 
 router.post("/login", validate.loginPost, controllers.loginPost );
+
+router.post("/password/forgot", validate.forgotPasswordPost, controllers.forgotPasswordPost );
 
 module.exports = router;
