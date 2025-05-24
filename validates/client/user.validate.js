@@ -44,3 +44,26 @@ module.exports.forgotPasswordPost = (req, res, next) => {
      
     next();
 }
+
+
+module.exports.resetPasswordPost = (req, res, next) => {
+    // Kiểm tra các trường bắt buộc
+    if (!req.body.password) {
+        req.flash("error", 'Vui lòng nhập mật khẩu!');
+        return res.redirect("back");
+    }
+
+    if (!req.body.confirmPassword) {
+        req.flash("error", 'Vui lòng xác nhận mật khẩu!');
+        return res.redirect("back");
+    }
+
+    // Kiểm tra mật khẩu khớp nhau
+    if (req.body.password !== req.body.confirmPassword) {
+        req.flash("error", 'Mật khẩu không khớp!');
+        return res.redirect("back");
+    }
+
+    // Nếu tất cả validation passed, chuyển sang middleware tiếp theo
+    next();
+};
