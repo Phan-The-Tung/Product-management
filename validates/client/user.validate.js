@@ -50,18 +50,22 @@ module.exports.resetPasswordPost = (req, res, next) => {
     // Kiểm tra các trường bắt buộc
     if (!req.body.password) {
         req.flash("error", 'Vui lòng nhập mật khẩu!');
-        return res.redirect("back");
+        res.redirect(req.get("referer"));
+        return ;
     }
 
-    if (!req.body.confirmPassword) {
+    if (!req.body.confirmpassword) {
         req.flash("error", 'Vui lòng xác nhận mật khẩu!');
-        return res.redirect("back");
+        res.redirect(req.get("referer"));
+        return ;
     }
 
     // Kiểm tra mật khẩu khớp nhau
-    if (req.body.password !== req.body.confirmPassword) {
+    if (req.body.password !== req.body.confirmpassword) {
         req.flash("error", 'Mật khẩu không khớp!');
-        return res.redirect("back");
+        res.redirect(req.get("referer"));
+        return;
+         
     }
 
     // Nếu tất cả validation passed, chuyển sang middleware tiếp theo

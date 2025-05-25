@@ -4,6 +4,7 @@ const productsHelper = require("../../helpers/product");
 
 // [GET] /cart/
 module.exports.index = async (req, res) => {
+  if(req.cookies.cartId){
   const cartId = req.cookies.cartId;
 
   const cart = await Cart.findOne({
@@ -34,18 +35,33 @@ module.exports.index = async (req, res) => {
     pageTitle: "Giỏ hàng",
     cartDetail: cart
   });
+} else {
+  res.send("loi");
+}
 };
 
 // [POST] /cart/add/:productId
 module.exports.addPost = async (req, res) => {
   const productId = req.params.productId;
   const quantity = parseInt(req.body.quantity);
-  const cartId = req.cookies.cartId;
+  let cartId;
+
+  if(req.cookies.cartId) {
+    cartId = req.cookies.cartId;
+  } else {
+    const tmp = new Cart();
+    await tmp.save();
+    cartId = tmp.id;
+    res.cookie("cartId", tmp.id);
+  }
+
+ console.log(cartId);
+
+
 
 //   console.log(productId);
 //   console.log(quantity);
 //   console.log(cartId);
-
    
     const cart = await Cart.findOne({
         _id: cartId

@@ -10,7 +10,7 @@ module.exports.sendMail = (email, subject, html) => {
     });
 
     const mailOptions = {
-        from: 'namdp.2Stech@gmail.com',
+        from: process.env.EMAIL_USER,
         to: email,
         subject: subject,
         html: html
