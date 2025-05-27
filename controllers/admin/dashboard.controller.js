@@ -25,16 +25,16 @@ module.exports.dashboard = async (req, res) => {
         }
     };
     
-    statistic.categoryProduct.total = await ProductCategory.count({
+    statistic.categoryProduct.total = await ProductCategory.countDocuments({
         deleted: false
     });
       
-    statistic.categoryProduct.active = await ProductCategory.count({
+    statistic.categoryProduct.active = await ProductCategory.countDocuments({
         status: "active",
         deleted: false
     });
       
-    statistic.categoryProduct.inactive = await ProductCategory.count({
+    statistic.categoryProduct.inactive = await ProductCategory.countDocuments({
         status: "inactive",
         deleted: false
     });

@@ -48,11 +48,11 @@ app.use(express.static("public"));
 
 route(app);
 routeAdmin(app);
-app.get("*", (req, res) => {
-    res.render("client/pages/errors/404", {
-        pageTitle: "404 Not Found" 
-    })
-})
+// app.get("*", (req, res) => {
+//     res.render("client/pages/errors/404", {
+//         pageTitle: "404 Not Found" 
+//     })
+// })
 
 
 

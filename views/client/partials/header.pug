@@ -6,7 +6,8 @@ header.header
       .col-3
         .inner-logo
           a(href="/")
-            img(src=settingGeneral.logo, alt=settingGeneral.websiteName)
+            if(settingGeneral)
+              img(src=settingGeneral.logo, alt=settingGeneral.websiteName)
       
       .col-5
         form(

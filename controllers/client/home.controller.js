@@ -4,12 +4,14 @@
 module.exports.index = async (req, res) => {
 
      const productsFeatured = await Product.find({
-        feadtured: "1",
+        featured: "1",
         deleted: false,
         status: "active"
      })
 
       const newProducts = productsHelper.priceNewProducts(productsFeatured);
+
+      console.log(newProducts);
 
       const productsNew = await Product.find({
         deleted: false,
