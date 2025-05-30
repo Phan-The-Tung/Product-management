@@ -8,7 +8,8 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const moment = require("moment");
-
+const http = require("http");
+const { Server } = require("socket.io");
 const database = require("./config/database");
 const route = require("./routes/client/index.route");
 const routeAdmin = require("./routes/admin/index.route");
@@ -20,6 +21,13 @@ database.connect();
 
 const app = express();
 const port = process.env.PORT;
+
+//Socket
+const server = http.createServer(app);
+const io = new Server(server);
+io.on("connection", (socket) => {
+    console.log("thanhf coong");
+})
 
 app.use(methodOverride("_method"));
 
@@ -56,6 +64,6 @@ routeAdmin(app);
 
 
 
-app.listen(port, () =>{
+server.listen(port, () =>{
     console.log(`App listening on port ${port}`);
 });
