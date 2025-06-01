@@ -34,5 +34,7 @@ router.patch("/edit/:id",
 );
 
 
+router.get("/detail/:id", controllers.detail);
+
 
 module.exports = router;

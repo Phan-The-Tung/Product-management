@@ -55,7 +55,7 @@ module.exports.index = async (req, res) => {
     
         objectPagination.totalPage = totalPages;
 
-    console.log(objectPagination);
+    // console.log(objectPagination);
      
   //End phân trang
 
@@ -71,9 +71,21 @@ module.exports.index = async (req, res) => {
       if(user) {
         record.accountFullName = user.fullName;
       }
+
+      //Lấy ra thông tin người cập nhật gần nhất
+
+      const updatedBy = record.updatedBy.slice(-1)[0];
+      if(updatedBy) {
+        const userUpdated = await Account.findOne({
+          _id: updatedBy.account_id
+        })
+
+        updatedBy.accountFullName = userUpdated.fullName;
+      }
+
     }
 
-    // res.locals.count = 0;
+     
 
 
     res.render("admin/pages/products-category/index", {
@@ -167,10 +179,25 @@ module.exports.editPatch = async (req, res) => {
 
     req.body.position = parseInt(req.body.position);
 
-    await ProductCategory.updateOne({_id: id}, req.body);
-
+    try {
+      const updatedBy = {
+        account_id: res.locals.user.id,
+        updatedAt: new Date()
+      }
+  
+      await ProductCategory.updateOne({_id: id}, 
+        {...req.body,
+        $push: { updatedBy: updatedBy}}
+      );
+      req.flash("success", "Sửa danh mục sản phẩm thành công");
+     } catch (error) {
+      req.flash("error", "Sửa danh mục sản phẩm thất bại");
+      
+     }
     res.redirect(req.get("referer"));
- 
+  
+
+    
 };
 
 // [PATCH]/change-status/:status/:id
@@ -247,5 +274,28 @@ module.exports.deleteItem = async(req, res) => {
  
     res.redirect(req.get("referer"));
  }
+
+
+// [GET]/admin/product-category/detail/:id
+module.exports.detail = async(req, res) => {
+  try {
+    const find = {
+      deleted: false,
+      _id: req.params.id
+    };
+  
+    const product = await ProductCategory.findOne(find);
+  
+    res.render("admin/pages/products-category/detail", {
+      pageTitle: product.title,
+      product: product
+    });
+    
+  } catch (error) {
+    req.flash("error", "Chi tiết danh mục sản phẩm lỗi");
+    res.redirect(`${systemConfig.prefixAdmin}/products-category`);
+     
+  }
+}
 
  

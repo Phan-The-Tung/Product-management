@@ -14,6 +14,7 @@ const database = require("./config/database");
 const route = require("./routes/client/index.route");
 const routeAdmin = require("./routes/admin/index.route");
  
+ 
 
  
 
@@ -23,11 +24,11 @@ const app = express();
 const port = process.env.PORT;
 
 //Socket
-const server = http.createServer(app);
-const io = new Server(server);
-io.on("connection", (socket) => {
-    console.log("thanhf coong");
-})
+// const server = http.createServer(app);
+// const io = new Server(server);
+// io.on("connection", (socket) => {
+//     console.log("thanhf coong");
+// })
 
 app.use(methodOverride("_method"));
 
@@ -64,6 +65,6 @@ routeAdmin(app);
 
 
 
-server.listen(port, () =>{
+app.listen(port, () =>{
     console.log(`App listening on port ${port}`);
 });
