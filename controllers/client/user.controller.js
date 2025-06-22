@@ -231,7 +231,8 @@ module.exports.resetPasswordPost = async (req, res) => {
     user_id: user.id
   });
 
-  console.log(cart.id);
+  console.log(cart);
+  // console.log(cart.id);
 
   res.cookie("cartId", cart.id);
   res.redirect("/");

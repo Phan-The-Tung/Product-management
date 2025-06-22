@@ -109,6 +109,46 @@ module.exports.editPatch = async (req, res) => {
     res.redirect(req.get("referer"));
 };
 
+// [PATCH]/change-status/:status/:id
+
+module.exports.changeStatus = async(req, res) => {
+    const status = req.params.status;
+    const id = req.params.id;
+  
+    // const updatedBy = {
+    //   account_id: res.locals.user.id,
+    //   updatedAt: new Date()
+    // }
+  
+    const back = req.get("referer");
+  
+    await Account.updateOne({ _id: id}, { status: status});
+  
+    req.flash("success", "Cập nhật trạng thái tài khoản thành công");
+    res.redirect(back);
+     
+  
+  };
+
+// [DELETE]/admin/accounts/delete/:id
+
+module.exports.deleteItem = async(req, res) => {
+    const id = req.params.id;
+     
+   //  await Product.deleteOne({_id: id});
+   await Account.updateOne({_id: id}, 
+     {
+       deleted: true,
+       deletedAt: new Date()
+     }
+     
+   );
+   res.json({
+     code: 200,
+     message: "Xóa tài khoản thành công!"
+   });
+ }
+ 
 
 
 

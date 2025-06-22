@@ -106,4 +106,26 @@ module.exports.permissionsPatch = async (req, res) => {
     res.redirect(req.get("referer"));
 };
 
+// [DELETE]/delete/:id
+
+module.exports.deleteItem = async(req, res) => {
+    const id = req.params.id;
+     
+    
+   await Role.updateOne({_id: id}, 
+     {
+       deleted: true,
+       deletedBy: {
+         account_id: res.locals.user.id,
+         deletedAt: new Date()
+       }
+ 
+     }
+     
+   );
+   req.flash("success", "Xóa role thành công");
+ 
+    res.redirect(req.get("referer"));
+ }
+
 

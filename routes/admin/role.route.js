@@ -11,6 +11,8 @@ router.post("/create", controllers.createPost);
 
 router.get("/edit/:id", controllers.edit);
 
+router.get("/delete/:id", controllers.deleteItem);
+
 router.patch("/edit/:id", controllers.editPatch);
 
 router.get("/permissions", controllers.permissions);
