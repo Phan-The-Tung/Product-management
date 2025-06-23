@@ -70,11 +70,14 @@ block main
                     a(href=`${prefixAdmin}/accounts/edit/${item.id}`
                       class="btn btn-warning btn-sm") Sửa
                   if(role.permissions.includes("accounts_delete"))    
-                    button(
-                      class="btn btn-danger btn-sm ml-1"
+                    button(class="btn btn-danger btn-sm ml-1"
                       button-delete
-                      data-id=item.id
+                      data-id= item.id
                     ) Xóa
+                    //- a(
+                    //-   href=`${prefixAdmin}/accounts/delete/${item.id}`
+                    //-   class="btn btn-danger btn-sm ml-1"
+                    //- ) Xóa
 
     form(
       action=""
@@ -90,6 +93,4 @@ block main
       data-path= `${prefixAdmin}/accounts/delete`
     )
 
-    script.
-      const prefixAdmin = "#{prefixAdmin}";
     script(src="/admin/js/account.js")

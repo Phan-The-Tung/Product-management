@@ -143,10 +143,9 @@ module.exports.deleteItem = async(req, res) => {
      }
      
    );
-   res.json({
-     code: 200,
-     message: "Xóa tài khoản thành công!"
-   });
+   req.flash("success", "Xóa tài khoản thành công");
+ 
+    res.redirect(req.get("referer"));
  }
  
 

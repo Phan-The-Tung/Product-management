@@ -1,0 +1,25 @@
+mixin filter-status-orders(filterStatus)
+  a(
+    href=`${prefixAdmin}/orders`
+    class=`btn btn-sm ml-1 btn-outline-success ${!filterStatus ? 'active' : ''}`
+  ) Tất cả
+  a(
+    href=`${prefixAdmin}/orders?status=pending`
+    class=`btn btn-sm ml-1 btn-outline-warning ${filterStatus === 'pending' ? 'active' : ''}`
+  ) Chờ xử lý
+  a(
+    href=`${prefixAdmin}/orders?status=processing`
+    class=`btn btn-sm ml-1 btn-outline-info ${filterStatus === 'processing' ? 'active' : ''}`
+  ) Đang xử lý
+  a(
+    href=`${prefixAdmin}/orders?status=shipped`
+    class=`btn btn-sm ml-1 btn-outline-primary ${filterStatus === 'shipped' ? 'active' : ''}`
+  ) Đang giao
+  a(
+    href=`${prefixAdmin}/orders?status=delivered`
+    class=`btn btn-sm ml-1 btn-outline-success ${filterStatus === 'delivered' ? 'active' : ''}`
+  ) Đã giao
+  a(
+    href=`${prefixAdmin}/orders?status=cancelled`
+    class=`btn btn-sm ml-1 btn-outline-danger ${filterStatus === 'cancelled' ? 'active' : ''}`
+  ) Đã hủy 

@@ -20,29 +20,21 @@ if(buttonChangeStatus){
 // End Button Change Status
 
 // Button Delete
-const buttonsDelete = document.querySelectorAll("[button-delete]");
-
-if (buttonsDelete.length > 0) {
-  buttonsDelete.forEach(button => {
-    button.addEventListener("click", () => {
-      const isConfirm = confirm("Bạn có chắc chắn muốn xóa không?");
-
-      if (isConfirm) {
-        const id = button.getAttribute("data-id");
-
-        const path = `${prefixAdmin}/accounts/delete/${id}`;
-
-        fetch(path, {
-          method: "DELETE"
-        })
-        .then(res => res.json())
-        .then(data => {
-          if (data.code == 200) {
-            window.location.reload();
-          }
+const buttonDelete = document.querySelectorAll("[button-delete]");
+if(buttonDelete){
+    const formDeleteItem = document.querySelector("#form-delete-item");
+    const path = formDeleteItem.getAttribute("data-path");
+    buttonDelete.forEach(button => {
+        button.addEventListener("click", () => {
+            const isConfirm = confirm("Bạn có muốn xóa sản phẩm này không?");
+            if(isConfirm){
+                const id = button.getAttribute("data-id");
+                const action = `${path}/${id}?_method=DELETE`;
+                formDeleteItem.action = action;
+                formDeleteItem.submit();
+            }
         });
-      }
     });
-  });
 }
+
 // End Button Delete

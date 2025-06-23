@@ -1,6 +1,6 @@
 /* Header */
 header {
-    background: #202020;
+    background: #1e7829;
     padding: 10px 0;
     position: sticky;
     top: 0;
@@ -17,7 +17,7 @@ header {
 /* Body */
 .body .sider {
     width: 150px;
-    background: #323232;
+    background: #1e7829;
     color: #fff;
     height: calc(100vh - 56px);
     position: fixed;

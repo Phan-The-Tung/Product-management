@@ -1,0 +1,115 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+include ../../mixins/moment.pug
+
+block main
+  //- +alert-success(5000)
+  //- +alert-error(5000)
+
+  h1 Chi tiết đơn hàng
+
+  .card.mb-3
+    .card-header Thông tin đơn hàng
+    .card-body
+      .row
+        .col-md-6
+          h5 Mã đơn hàng: #{order._id}
+          p Ngày tạo: 
+            +formatDateTime(order.createdAt)
+          p Trạng thái: 
+            if(order.status == "pending")
+              span.badge.badge-warning Chờ xử lý
+            else if(order.status == "processing")
+              span.badge.badge-info Đang xử lý
+            else if(order.status == "shipped")
+              span.badge.badge-primary Đang giao
+            else if(order.status == "delivered")
+              span.badge.badge-success Đã giao
+            else if(order.status == "cancelled")
+              span.badge.badge-danger Đã hủy
+            else
+              span.badge.badge-secondary #{order.status}
+        .col-md-6
+          //- h5 Tổng tiền: #{products.totalPrice ? order.totalPrice.toLocaleString('vi-VN') + 'đ' : '0đ'}
+          h5 Tổng tiền: #{totalPrice}
+  .card.mb-3
+    .card-header Thông tin khách hàng
+    .card-body
+      .row
+        .col-md-6
+          p 
+            strong Họ tên: 
+            span #{order.userInfo.fullName}
+          p 
+            strong Số điện thoại: 
+            span #{order.userInfo.phone}
+          p 
+            strong Địa chỉ: 
+            span #{order.userInfo.address}
+        .col-md-6
+          if users
+            p 
+              strong Email: 
+              span #{users.email}
+            p 
+              strong Tài khoản: 
+              span #{users.fullName}
+
+  .card.mb-3
+    .card-header Danh sách sản phẩm
+    .card-body
+      table.table.table-hover
+        thead
+          tr
+            th STT
+            th Sản phẩm
+            th Giá
+            th Số lượng
+            th Thành tiền
+        tbody
+          each product, index in products
+            tr
+              td #{index + 1}
+              td 
+                if product.productInfo.title
+                  strong #{product.productInfo.title}
+                else
+                  strong #{product.productInfo.title}
+              td #{product.price.toLocaleString('vi-VN')}đ
+              td #{product.quantity}
+              td #{(((product.price * (100 - product.discountPercentage)) / 100).toFixed(0) * product.quantity).toLocaleString('vi-VN')}đ
+
+  .card.mb-3
+    .card-header Cập nhật trạng thái
+    .card-body
+      form(
+        action=`${prefixAdmin}/orders/change-status/${order._id}?_method=PATCH`
+        method="POST"
+      )
+        .form-group
+          label(for="status") Trạng thái đơn hàng
+          select.form-control(name="status" id="status")
+            option(value="pending" selected=order.status === "pending") Chờ xử lý
+            option(value="processing" selected=order.status === "processing") Đang xử lý
+            option(value="shipped" selected=order.status === "shipped") Đang giao
+            option(value="delivered" selected=order.status === "delivered") Đã giao
+            option(value="cancelled" selected=order.status === "cancelled") Đã hủy
+        button.btn.btn-primary(type="submit") Cập nhật trạng thái
+
+  .card.mb-3
+    .card-header Hành động
+    .card-body
+      a.btn.btn-secondary(href=`${prefixAdmin}/orders`) Quay lại danh sách
+      button.btn.btn-danger.ml-2(
+        button-delete
+        data-id= order._id
+      ) Xóa đơn hàng
+
+  form(
+    action=""
+    method="POST"
+    id="form-delete-item"
+    data-path= `${prefixAdmin}/orders/delete`
+  )
+
+  script(src="/admin/js/order.js") 

@@ -1,0 +1,23 @@
+mixin form-change-multi-orders(path)
+  form(
+        action=path
+        method='POST'
+        form-change-multi
+        )
+          .d-flex.align-items-start
+            .form-group
+              select(name='type' class='form-control')
+                option(disable selected) -- Chọn hành động --
+                option(value='processing') Đang xử lý
+                option(value='shipped') Đang giao
+                option(value='delivered') Đã giao
+                option(value='cancelled') Đã hủy
+                option(value='delete') Xóa tất cả
+            .form-group
+              input(
+                type='text'
+                name='ids'
+                value=''
+                class='form-control d-none'
+              )
+            button(type='submit', class='btn btn-primary') Áp dụng 
