@@ -2,9 +2,189 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
 block main  
-  .container.my-3 
+  .container.my-5
     .row 
       .col-12 
         +box-head("Thông tin cá nhân")
+    
+    .row
+      .col-lg-4.col-md-5.mb-4
+        .card.shadow-sm
+          .card-body.text-center
+            .profile-avatar.mb-4
+              if user.avatar
+                img.rounded-circle.mb-3(src=user.avatar alt="Avatar" style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #28a745;")
+              else
+                .avatar-placeholder.rounded-circle.mb-3.mx-auto.d-flex.align-items-center.justify-content-center(style="width: 120px; height: 120px; background: #e9ecef; border: 4px solid #28a745;")
+                  i.fas.fa-user.fa-3x.text-muted
+              
+              .upload-avatar
+                label.btn.btn-outline-primary.btn-sm(for="avatar-upload")
+                  i.fas.fa-camera.me-2
+                  | Thay đổi ảnh
+                input#avatar-upload(type="file" accept="image/*" style="display: none;")
+            
+            h5.mb-1 #{user.fullName || 'Chưa cập nhật'}
+            p.text-muted.mb-3 #{user.email}
+            
+            .user-stats.row.text-center
+              .col-4
+                .stat-item
+                  h6.text-primary.mb-1 0
+                  small.text-muted Đơn hàng
+              .col-4
+                .stat-item
+                  h6.text-success.mb-1 0
+                  small.text-muted Đã mua
+              .col-4
+                .stat-item
+                  h6.text-info.mb-1 0
+                  small.text-muted Đánh giá
 
-  div #{user}
+      .col-lg-8.col-md-7
+        .card.shadow-sm
+          .card-header.bg-white
+            h5.mb-0
+              i.fas.fa-user-edit.me-2.text-primary
+              | Chỉnh sửa thông tin
+          
+          .card-body
+            form#profile-form(action="/user/profile" method="POST")
+              .row
+                .col-md-6.mb-3
+                  label.form-label(for="fullName")
+                    i.fas.fa-user.me-2
+                    | Họ và tên
+                  input#fullName.form-control(type="text" name="fullName" value=user.fullName || "" placeholder="Nhập họ và tên")
+                
+                .col-md-6.mb-3
+                  label.form-label(for="phone")
+                    i.fas.fa-phone.me-2
+                    | Số điện thoại
+                  input#phone.form-control(type="tel" name="phone" value=user.phone || "" placeholder="Nhập số điện thoại")
+                
+                .col-md-6.mb-3
+                  label.form-label(for="email")
+                    i.fas.fa-envelope.me-2
+                    | Email
+                  input#email.form-control(type="email" name="email" value=user.email disabled)
+                  small.text-muted Email không thể thay đổi
+                
+                .col-md-6.mb-3
+                  label.form-label(for="birthday")
+                    i.fas.fa-birthday-cake.me-2
+                    | Ngày sinh
+                  input#birthday.form-control(type="date" name="birthday" value=user.birthday || "")
+                
+                .col-12.mb-3
+                  label.form-label(for="address")
+                    i.fas.fa-map-marker-alt.me-2
+                    | Địa chỉ
+                  textarea#address.form-control(name="address" rows="3" placeholder="Nhập địa chỉ chi tiết") #{user.address || ""}
+                
+                .col-md-6.mb-3
+                  label.form-label(for="gender")
+                    i.fas.fa-venus-mars.me-2
+                    | Giới tính
+                  select#gender.form-control(name="gender")
+                    option(value="" selected=!user.gender) Chọn giới tính
+                    option(value="male" selected=user.gender === 'male') Nam
+                    option(value="female" selected=user.gender === 'female') Nữ
+                    option(value="other" selected=user.gender === 'other') Khác
+                
+                .col-md-6.mb-3
+                  label.form-label(for="status")
+                    i.fas.fa-circle.me-2
+                    | Trạng thái
+                  select#status.form-control(name="status" disabled)
+                    option(value="active" selected=user.status === 'active') Hoạt động
+                    option(value="inactive" selected=user.status === 'inactive') Không hoạt động
+                  small.text-muted Trạng thái tài khoản
+                
+                .col-12
+                  .d-flex.justify-content-between.align-items-center
+                    button.btn.btn-primary(type="submit")
+                      i.fas.fa-save.me-2
+                      | Lưu thay đổi
+                    
+                    a.btn.btn-outline-secondary(href="/user/change-password")
+                      i.fas.fa-key.me-2
+                      | Đổi mật khẩu
+
+    .row.mt-4
+      .col-12
+        .card.shadow-sm
+          .card-header.bg-white
+            h5.mb-0
+              i.fas.fa-history.me-2.text-primary
+              | Lịch sử hoạt động
+          
+          .card-body
+            .activity-timeline
+              .activity-item.d-flex.align-items-center.mb-3
+                .activity-icon.bg-primary.rounded-circle.d-flex.align-items-center.justify-content-center.me-3(style="width: 40px; height: 40px;")
+                  i.fas.fa-user-plus.text-white
+                .activity-content
+                  h6.mb-1 Tạo tài khoản
+                  small.text-muted #{user.createdAt ? new Date(user.createdAt).toLocaleDateString('vi-VN') : 'Chưa có thông tin'}
+              
+              if user.updatedAt && user.updatedAt !== user.createdAt
+                .activity-item.d-flex.align-items-center.mb-3
+                  .activity-icon.bg-success.rounded-circle.d-flex.align-items-center.justify-content-center.me-3(style="width: 40px; height: 40px;")
+                    i.fas.fa-edit.text-white
+                  .activity-content
+                    h6.mb-1 Cập nhật thông tin
+                    small.text-muted #{new Date(user.updatedAt).toLocaleDateString('vi-VN')}
+
+block script
+  script.
+    // Xử lý upload avatar
+    document.getElementById('avatar-upload').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const formData = new FormData();
+        formData.append('avatar', file);
+        
+        fetch('/user/upload-avatar', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            location.reload();
+          } else {
+            alert('Có lỗi xảy ra khi upload ảnh');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Có lỗi xảy ra khi upload ảnh');
+        });
+      }
+    });
+
+    // Xử lý form submit
+    document.getElementById('profile-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(this);
+      
+      fetch('/user/profile', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Cập nhật thông tin thành công!');
+          location.reload();
+        } else {
+          alert(data.message || 'Có lỗi xảy ra');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Có lỗi xảy ra khi cập nhật thông tin');
+      });
+    });

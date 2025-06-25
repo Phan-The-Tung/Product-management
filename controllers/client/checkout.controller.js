@@ -51,6 +51,11 @@ module.exports.order = async (req, res) => {
     const products = [];
 
     for (const product of cart.products) {
+        const quanlity = await Product.findOne({_id: product.product_id}).select("stock");
+        console.log(quanlity.stock);
+        const quanlityNew = quanlity.stock - product.quantity;
+        await Product.updateOne({_id: product.product_id}, {stock: quanlityNew});
+        
         const objectProduct = {
           product_id: product.product_id,
           price: 0,
@@ -82,6 +87,9 @@ module.exports.order = async (req, res) => {
       }, {
         products: []
       });
+
+
+
       
       res.redirect(`/checkout/success/${order.id}`);
 }

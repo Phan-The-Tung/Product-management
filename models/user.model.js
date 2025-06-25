@@ -12,6 +12,13 @@ const userSchema = new mongoose.Schema(
     },
     phone: String,
     avatar: String,
+    address: String,
+    birthday: Date,
+    gender: {
+      type: String,
+      enum: ['male', 'female', 'other'],
+      default: null
+    },
     status: {
       type: String,
       default: "active"

@@ -240,10 +240,82 @@ module.exports.resetPasswordPost = async (req, res) => {
   
 // [GET] /user/info
 module.exports.info = async (req, res) => {
+  const user = req.user;
    
   res.render("client/pages/user/info", {
       pageTitle: "Thông tin tài khoản",
+      user: user
   });
+};
+
+// [POST] /user/profile
+module.exports.updateProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const updateData = {
+      fullName: req.body.fullName,
+      phone: req.body.phone,
+      address: req.body.address,
+      birthday: req.body.birthday,
+      gender: req.body.gender
+    };
+
+    // Loại bỏ các trường undefined hoặc null
+    Object.keys(updateData).forEach(key => {
+      if (updateData[key] === undefined || updateData[key] === null || updateData[key] === '') {
+        delete updateData[key];
+      }
+    });
+
+    await User.updateOne(
+      { _id: userId },
+      updateData
+    );
+
+    res.json({
+      success: true,
+      message: "Cập nhật thông tin thành công!"
+    });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res.json({
+      success: false,
+      message: "Có lỗi xảy ra khi cập nhật thông tin"
+    });
+  }
+};
+
+// [POST] /user/upload-avatar
+module.exports.uploadAvatar = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    
+    if (!req.body.avatar) {
+      return res.json({
+        success: false,
+        message: "Không có file được upload"
+      });
+    }
+
+    const avatarUrl = req.body.avatar;
+    
+    await User.updateOne(
+      { _id: userId },
+      { avatar: avatarUrl }
+    );
+
+    res.json({
+      success: true,
+      message: "Upload avatar thành công!",
+      avatarUrl: avatarUrl
+    });
+  } catch (error) {
+    console.error("Error uploading avatar:", error);
+    res.json({
+      success: false,
+      message: "Có lỗi xảy ra khi upload avatar"
+    });
+  }
 };
 
 

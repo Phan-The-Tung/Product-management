@@ -55,7 +55,7 @@ module.exports.addPost = async (req, res) => {
     res.cookie("cartId", tmp.id);
   }
 
- console.log(cartId);
+//  console.log(cartId);
 
 
 
@@ -69,11 +69,11 @@ module.exports.addPost = async (req, res) => {
     
        const existProductInCart = cart.products.find(item => item.product_id == productId);
     
-       console.log(existProductInCart);
+      //  console.log(existProductInCart);
     
        if(existProductInCart) {
         const quantityNew = quantity + existProductInCart.quantity;
-        console.log(quantityNew);
+        // console.log(quantityNew);
         await Cart.updateOne({
             _id: cartId,
             "products.product_id": productId

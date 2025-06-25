@@ -1,0 +1,84 @@
+extends ../../layouts/default
+
+block main
+  .container.my-5
+    .row
+      .col-12
+        h1.text-center.mb-4 Đơn hàng của tôi
+        if orders.length
+          each order in orders
+            .card.mb-4.shadow-sm
+              .card-header.bg-primary.text-white.d-flex.justify-content-between.align-items-center
+                .order-id
+                  i.fas.fa-shopping-cart.me-2
+                  | Mã đơn: #{order._id}
+                .order-status
+                  span(class=`badge badge-${order.status === 'delivered' ? 'success' : order.status === 'cancelled' ? 'danger' : 'warning'}`) #{order.status}
+              .card-body
+                .row.mb-3
+                  .col-md-6
+                    p.mb-1
+                      strong.text-muted Ngày đặt: 
+                      | #{order.createdAt.toLocaleString('vi-VN')}
+                  .col-md-6.text-md-end
+                    p.mb-1
+                      strong.text-muted Tổng tiền: 
+                      span.text-primary.h5 #{order.total.toLocaleString('vi-VN')} VNĐ
+                
+                .table-responsive
+                  table.table.table-hover
+                    thead.table-light
+                      tr
+                        th Sản phẩm
+                        th.text-center Số lượng
+                        th.text-end Đơn giá
+                        th.text-end Thành tiền
+                    tbody
+                      each item in order.products
+                        tr
+                          td
+                            .d-flex.align-items-center
+                              if item.productInfo.thumbnail
+                                img.me-2(src=item.productInfo.thumbnail alt=item.productInfo.title width="50")
+                              .product-info
+                                h6.mb-0 #{item.productInfo.title}
+                          td.text-center #{item.quantity}
+                          td.text-end #{item.priceNew.toLocaleString('vi-VN')} VNĐ
+                          td.text-end #{item.totalPrice.toLocaleString('vi-VN')} VNĐ
+                
+                if order.status === 'pending'
+                  .text-end.mt-3
+                    button.btn.btn-danger.btn-sm(type='button') Hủy đơn hàng
+        else
+          .text-center.py-5
+            i.fas.fa-shopping-bag.fa-3x.text-muted.mb-3
+            p.lead.text-muted Bạn chưa có đơn hàng nào.
+            a.btn.btn-primary(href='/product') Mua sắm ngay
+
+  link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
+  style.
+    .order-status .badge {
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+    }
+    .badge-pending { background-color: #ffc107; }
+    .badge-processing { background-color: #17a2b8; }
+    .badge-shipped { background-color: #007bff; }
+    .badge-delivered { background-color: #28a745; }
+    .badge-cancelled { background-color: #dc3545; }
+    .product-info {
+      max-width: 300px;
+    }
+    .table > :not(caption) > * > * {
+      padding: 1rem;
+    }
+    .table tbody tr:hover {
+      background-color: #f8f9fa;
+    }
+    .card {
+      border: none;
+      border-radius: 10px;
+    }
+    .card-header {
+      border-radius: 10px 10px 0 0 !important;
+    } 
