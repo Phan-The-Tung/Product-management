@@ -34,7 +34,7 @@ app.use(methodOverride("_method"));
 
 app.use(bodyParser.urlencoded({extended: true}));
 
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 
 
 // app.set("views", `${_dirname}/views`);
@@ -42,7 +42,12 @@ app.set("views", "./views");
 app.set("view engine", "pug");
 
 app.use(cookieParser("keyboard cat"));
-app.use(session({cookie: {maxAge: 60000}}));
+app.use(session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {maxAge: 60000}
+}));
 app.use(flash());
 
 //TinyMCE
@@ -57,13 +62,19 @@ app.use(express.static("public"));
 
 route(app);
 routeAdmin(app);
+
+// 404 Error Handler - Must be last
 // app.get("*", (req, res) => {
-//     res.render("client/pages/errors/404", {
-//         pageTitle: "404 Not Found" 
-//     })
-// })
+//     res.status(404).render("client/pages/errors/404", {
+//         pageTitle: "404 - Trang không tồn tại" 
+//     });
+// });
 
-
+app.use((req, res, next) => {
+    res.status(404).render("client/pages/errors/404", {
+        pageTitle: "404 - Trang không tồn tại"
+    });
+});
 
 app.listen(port, () =>{
     console.log(`App listening on port ${port}`);

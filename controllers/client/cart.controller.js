@@ -4,6 +4,7 @@ const productsHelper = require("../../helpers/product");
 
 // [GET] /cart/
 module.exports.index = async (req, res) => {
+  const cart = {};
   if(req.cookies.cartId){
   const cartId = req.cookies.cartId;
 
@@ -36,7 +37,10 @@ module.exports.index = async (req, res) => {
     cartDetail: cart
   });
 } else {
-  res.send("loi");
+  res.render("client/pages/cart/index", {
+    pageTitle: "Giỏ hàng",
+     
+  });
 }
 };
 
@@ -98,7 +102,7 @@ module.exports.addPost = async (req, res) => {
           );
        }
     
-      res.send("OK");
+      res.redirect("/product");
    
 };
 

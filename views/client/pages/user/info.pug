@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug 
 include ../../mixins/box-head.pug
+include ../../mixins/alert.pug
 
 block main  
   .container.my-5
@@ -22,24 +23,25 @@ block main
                 label.btn.btn-outline-primary.btn-sm(for="avatar-upload")
                   i.fas.fa-camera.me-2
                   | Thay đổi ảnh
-                input#avatar-upload(type="file" accept="image/*" style="display: none;")
+                form#formImage(action="/user/upload-avatar" method="POST" enctype="multipart/form-data")
+                  input#avatar-upload(name="avatar" type="file" accept="image/*" style="display: none;")
             
             h5.mb-1 #{user.fullName || 'Chưa cập nhật'}
             p.text-muted.mb-3 #{user.email}
             
             .user-stats.row.text-center
-              .col-4
+              .col-6
                 .stat-item
-                  h6.text-primary.mb-1 0
+                  h6.text-primary.mb-1 #{totalOrder}
                   small.text-muted Đơn hàng
-              .col-4
+              .col-6
                 .stat-item
-                  h6.text-success.mb-1 0
+                  h6.text-success.mb-1 #{Order}
                   small.text-muted Đã mua
-              .col-4
-                .stat-item
-                  h6.text-info.mb-1 0
-                  small.text-muted Đánh giá
+              //- .col-4
+              //-   .stat-item
+              //-     h6.text-info.mb-1 0
+              //-     small.text-muted Đánh giá
 
       .col-lg-8.col-md-7
         .card.shadow-sm
@@ -74,7 +76,7 @@ block main
                   label.form-label(for="birthday")
                     i.fas.fa-birthday-cake.me-2
                     | Ngày sinh
-                  input#birthday.form-control(type="date" name="birthday" value=user.birthday || "")
+                  input#birthday.form-control(type="date" name="birthday" value=user.birthday ? moment(user.birthday).format('YYYY-MM-DD') : "" placeholder="Chọn ngày sinh")
                 
                 .col-12.mb-3
                   label.form-label(for="address")
@@ -126,65 +128,63 @@ block main
                   i.fas.fa-user-plus.text-white
                 .activity-content
                   h6.mb-1 Tạo tài khoản
-                  small.text-muted #{user.createdAt ? new Date(user.createdAt).toLocaleDateString('vi-VN') : 'Chưa có thông tin'}
+                  small.text-muted #{user.createdAt ? moment(user.createdAt).format('DD/MM/YYYY HH:mm') : 'Chưa có thông tin'}
               
-              if user.updatedAt && user.updatedAt !== user.createdAt
+              if user.updatedAt && user.updatedAt.getTime() !== user.createdAt.getTime()
                 .activity-item.d-flex.align-items-center.mb-3
                   .activity-icon.bg-success.rounded-circle.d-flex.align-items-center.justify-content-center.me-3(style="width: 40px; height: 40px;")
                     i.fas.fa-edit.text-white
                   .activity-content
                     h6.mb-1 Cập nhật thông tin
-                    small.text-muted #{new Date(user.updatedAt).toLocaleDateString('vi-VN')}
+                    small.text-muted #{moment(user.updatedAt).format('DD/MM/YYYY HH:mm')}
 
 block script
   script.
     // Xử lý upload avatar
     document.getElementById('avatar-upload').addEventListener('change', function(e) {
       const file = e.target.files[0];
+      console.log(file);
       if (file) {
-        const formData = new FormData();
-        formData.append('avatar', file);
-        
-        fetch('/user/upload-avatar', {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            location.reload();
-          } else {
-            alert('Có lỗi xảy ra khi upload ảnh');
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Có lỗi xảy ra khi upload ảnh');
-        });
+          const formImage = document.getElementById("formImage");
+          formImage.submit();
       }
     });
 
     // Xử lý form submit
-    document.getElementById('profile-form').addEventListener('submit', function(e) {
-      e.preventDefault();
+    //- document.getElementById('profile-form').addEventListener('submit', function(e) {
+      //- e.preventDefault();
+
+      //- const formProfile = document.getElementById('profile-form');
+
+      //- //- const path = formProfile.action;
+
+      //- //- //- const action = `${path}/${user.id}?_method=PATCH`;
+
+      //- //- formProfile.action = action;
+
+      //- //- console.log(formProfile.action);
+
+      //- formProfile.submit();
+
+
       
-      const formData = new FormData(this);
+      //- const formData = new FormData(this);
       
-      fetch('/user/profile', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          alert('Cập nhật thông tin thành công!');
-          location.reload();
-        } else {
-          alert(data.message || 'Có lỗi xảy ra');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Có lỗi xảy ra khi cập nhật thông tin');
-      });
-    });
+      //- fetch('/user/profile', {
+      //-   method: 'POST',
+      //-   body: formData
+      //- })
+      //- .then(response => response.json())
+      //- .then(data => {
+      //-   if (data.success) {
+      //-     alert('Cập nhật thông tin thành công!');
+      //-     location.reload();
+      //-   } else {
+      //-     alert(data.message || 'Có lỗi xảy ra');
+      //-   }
+      //- })
+      //- .catch(error => {
+      //-   console.error('Error:', error);
+      //-   alert('Có lỗi xảy ra khi cập nhật thông tin');
+      //- });
+    //- });

@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
 const controllers = require("../../controllers/client/user.controller")
 const validate = require("../../validates/client/user.validate");
 const authMiddleware = require("../../middlewares/client/auth.middleware");
-const uploadMiddleware = require("../../middlewares/client/uploadCloud.middleware");
+const uploadCloud = require("../../middlewares/client/uploadCloud.middleware");
+
+const upload = multer();
 
 router.get("/register",controllers.register );
 
@@ -34,7 +37,7 @@ router.post("/password/reset", validate.resetPasswordPost,controllers.resetPassw
 // Thêm routes mới
 router.post("/profile", authMiddleware.requireAuth, controllers.updateProfile);
 
-router.post("/upload-avatar", authMiddleware.requireAuth, uploadMiddleware.upload.single("avatar"), controllers.uploadAvatar);
+router.post("/upload-avatar", authMiddleware.requireAuth, upload.single("avatar"), uploadCloud.upload, controllers.uploadAvatar);
 
 router.post("/change-password", authMiddleware.requireAuth, controllers.changePasswordPost);
 

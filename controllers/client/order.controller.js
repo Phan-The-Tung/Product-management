@@ -37,3 +37,25 @@ module.exports.index = async (req, res) => {
     res.redirect('/');
   }
 }; 
+
+// [GET]/order/cancel/:id
+module.exports.edit = async(req, res) => {
+
+   const id = req.params.id;
+    
+    // const updatedBy = {
+    //   account_id: res.locals.user.id,
+    //   updatedAt: new Date()
+    // }
+
+    await Order.updateOne({_id: id}, 
+      {status: "cancelled" }
+    ); 
+    
+
+  // res.redirect(req.get("referer"));
+  
+  res.redirect(req.get("referer"));
+
+   
+}

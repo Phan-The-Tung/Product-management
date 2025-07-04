@@ -5,6 +5,8 @@ const authMiddleware = require('../../middlewares/client/auth.middleware');
 
 router.get("/orders", authMiddleware.requireAuth, orderController.index);
 
-router.get("/orders", authMiddleware.requireAuth, orderController.index);
+router.get("/cancel/:id", authMiddleware.requireAuth, orderController.edit);
+
+
 
 module.exports = router; 

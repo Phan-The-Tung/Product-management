@@ -13,7 +13,7 @@ block main
                   i.fas.fa-shopping-cart.me-2
                   | Mã đơn: #{order._id}
                 .order-status
-                  span(class=`badge badge-${order.status === 'delivered' ? 'success' : order.status === 'cancelled' ? 'danger' : 'warning'}`) #{order.status}
+                  span(class=`badge badge-${order.status === 'delivered' ? 'success' : order.status === 'cancelled' ? 'danger' : 'warning'}`) #{order.status }
               .card-body
                 .row.mb-3
                   .col-md-6
@@ -48,7 +48,8 @@ block main
                 
                 if order.status === 'pending'
                   .text-end.mt-3
-                    button.btn.btn-danger.btn-sm(type='button') Hủy đơn hàng
+                    //- button.btn.btn-danger.btn-sm(type='button') Hủy đơn hàng
+                    a.btn.btn-danger.btn-sm(href=`/order/cancel/${order._id}`) Hủy đơn hàng
         else
           .text-center.py-5
             i.fas.fa-shopping-bag.fa-3x.text-muted.mb-3

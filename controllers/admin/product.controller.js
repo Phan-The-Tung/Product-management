@@ -177,10 +177,10 @@ module.exports.deleteItem = async(req, res) => {
 
     }
     
-  );
-  req.flash("success", "Xóa sản phẩm thành công");
+  );req.flash("success", "Xóa sản phẩm thành công");
 
    res.redirect(req.get("referer"));
+   
 }
 
 // [GET]/admin/products/create

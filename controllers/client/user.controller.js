@@ -3,6 +3,7 @@ const ForgotPassword = require("../../models/forgot-password.model");
 const generateHelper = require("../../helpers/generate");
 const sendMailHelper = require("../../helpers/sendMail");
 const Cart = require("../../models/cart.model");
+const Order = require("../../models/order.model");
 const md5 = require("md5");
 
 // [GET] /user/register
@@ -241,10 +242,37 @@ module.exports.resetPasswordPost = async (req, res) => {
 // [GET] /user/info
 module.exports.info = async (req, res) => {
   const user = req.user;
+  // console.log(user);
+
+  const cart = await Cart.findOne({
+    user_id: user._id
+  });
+  // console.log(cart);
+
+  let totalOrder = 0;
+  if (cart) {
+    totalOrder = await Order.countDocuments({
+      cart_id: cart._id,
+      deleted: false
+    });
+  }
+
+  let order = 0;
+  if (cart) {
+    order = await Order.countDocuments({
+      cart_id: cart._id,
+      deleted: false,
+      status: "delivered"
+    });
+  }
+  // console.log(totalOrder);
+
    
   res.render("client/pages/user/info", {
       pageTitle: "Thông tin tài khoản",
-      user: user
+      user: user,
+      totalOrder: totalOrder,
+      Order: order
   });
 };
 
@@ -272,16 +300,14 @@ module.exports.updateProfile = async (req, res) => {
       updateData
     );
 
-    res.json({
-      success: true,
-      message: "Cập nhật thông tin thành công!"
-    });
+    req.flash("success", "Cập nhật thông tin  thành công");
+
+    res.redirect(req.get("referer"));
   } catch (error) {
-    console.error("Error updating profile:", error);
-    res.json({
-      success: false,
-      message: "Có lỗi xảy ra khi cập nhật thông tin"
-    });
+    // console.error("Error updating profile:", error);
+    req.flash("success", "Cập nhật thông tin  thất bại");
+
+    res.redirect(req.get("referer"));
   }
 };
 
@@ -294,28 +320,84 @@ module.exports.uploadAvatar = async (req, res) => {
       return res.json({
         success: false,
         message: "Không có file được upload"
+
       });
     }
-
+    console.log(req.body.avatar);
     const avatarUrl = req.body.avatar;
+     
     
     await User.updateOne(
       { _id: userId },
       { avatar: avatarUrl }
     );
 
-    res.json({
-      success: true,
-      message: "Upload avatar thành công!",
-      avatarUrl: avatarUrl
-    });
+    res.redirect(req.get("referer"));
+
+    
+
   } catch (error) {
     console.error("Error uploading avatar:", error);
+    res.redirect(req.get("referer"));
+     
+  }
+};
+
+// [GET] /user/change-password
+module.exports.changePassword = async (req, res) => {
+  res.render("client/pages/user/change-password", {
+    pageTitle: "Đổi mật khẩu"
+  });
+};
+
+// [POST] /user/change-password
+module.exports.changePasswordPost = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    // Kiểm tra mật khẩu hiện tại
+    const user = await User.findById(userId);
+    if (md5(currentPassword) !== user.password) {
+      return res.json({
+        success: false,
+        message: "Mật khẩu hiện tại không đúng"
+      });
+    }
+
+    // Kiểm tra mật khẩu mới
+    if (newPassword !== confirmPassword) {
+      return res.json({
+        success: false,
+        message: "Mật khẩu xác nhận không khớp"
+      });
+    }
+
+    if (newPassword.length < 6) {
+      return res.json({
+        success: false,
+        message: "Mật khẩu phải có ít nhất 6 ký tự"
+      });
+    }
+
+    // Cập nhật mật khẩu mới
+    await User.updateOne(
+      { _id: userId },
+      { password: md5(newPassword) }
+    );
+
+    res.json({
+      success: true,
+      message: "Đổi mật khẩu thành công!"
+    });
+  } catch (error) {
+    console.error("Error changing password:", error);
     res.json({
       success: false,
-      message: "Có lỗi xảy ra khi upload avatar"
+      message: "Có lỗi xảy ra khi đổi mật khẩu"
     });
   }
 };
+
 
 

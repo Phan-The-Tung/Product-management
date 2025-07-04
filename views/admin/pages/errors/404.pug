@@ -1,4 +1,4 @@
-extends ../../layouts/default.pug
+extends ../../layouts/auth.pug
 
 block main
   .error-page
@@ -7,7 +7,7 @@ block main
         .error-number
           span 4
           .error-zero
-            i.fas.fa-sad-tear
+            i.fas.fa-exclamation-triangle
           span 4
         
         h1.error-title Oops! Trang không tồn tại
@@ -15,32 +15,26 @@ block main
           | Trang bạn đang tìm kiếm có thể đã bị di chuyển, xóa hoặc không bao giờ tồn tại.
         
         .error-actions
-          a.btn.btn-primary(href="/")
-            i.fas.fa-home.me-2
-            | Về trang chủ
+          a.btn.btn-primary(href=`${prefixAdmin}/dashboard`)
+            i.fas.fa-tachometer-alt.me-2
+            | Về Dashboard
           
           button.btn.btn-outline-secondary(onclick="history.back()")
             i.fas.fa-arrow-left.me-2
             | Quay lại
         
-        .error-search
-          form(action="/search" method="GET")
-            .input-group
-              input.form-control(
-                type="text" 
-                name="keyword" 
-                placeholder="Tìm kiếm sản phẩm..."
-              )
-              button.btn.btn-primary(type="submit")
-                i.fas.fa-search
+        .error-info
+          p.text-muted.mb-0
+            i.fas.fa-info-circle.me-2
+            | Nếu bạn tin đây là lỗi, vui lòng liên hệ quản trị viên.
       
       .error-illustration
         .floating-elements
           .element.element-1
-            i.fas.fa-shopping-bag
+            i.fas.fa-cog
           .element.element-2
-            i.fas.fa-tag
+            i.fas.fa-chart-bar
           .element.element-3
-            i.fas.fa-heart
+            i.fas.fa-users
           .element.element-4
-            i.fas.fa-star
+            i.fas.fa-box 
