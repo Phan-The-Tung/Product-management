@@ -1,6 +1,6 @@
 /* Header */
 header {
-    background: #1e7829;
+    background: #2a2545;
     padding: 10px 0;
     position: sticky;
     top: 0;
@@ -17,7 +17,7 @@ header {
 /* Body */
 .body .sider {
     width: 150px;
-    background: #1e7829;
+    background: #2a2545;
     color: #fff;
     height: calc(100vh - 56px);
     position: fixed;
@@ -104,7 +104,7 @@ header {
 /* Login and Register Pages */
 .auth-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #1e7829 0%, #2d5a2d 100%);
+  background: linear-gradient(135deg, #5ee7df 0%, #b490ca 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -156,7 +156,7 @@ header {
 }
 
 .auth-container .btn-primary {
-  background: linear-gradient(135deg, #1e7829 0%, #2d5a2d 100%);
+  background: linear-gradient(135deg, #5ee7df 0%, #b490ca 100%);
   border: none;
   border-radius: 10px;
   padding: 12px 30px;

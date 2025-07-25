@@ -1,0 +1,51 @@
+extends ../../layouts/default.pug 
+
+block main 
+  if(role.permissions.includes("accounts_view"))  
+
+    if(account.avatar)
+      div(class="mb-4")
+        img(
+          src=account.avatar 
+          style="width: 100px"
+        )
+
+    if (account.fullName)
+      h1(class="mb-4") Tên tài khoản: <b>#{account.fullName}</b>
+    
+    if(account.email)
+      div(class="mb-4") Email: <b>#{account.email}</b>
+
+    //- if(account.password)
+    //-   div(class="mb-4") Password: <b>#{account.password}%</b>
+
+    if(account.phone)
+      div(class="mb-4") Điện thoại: <b>#{account.phone}</b>
+
+    //- if(account.avatar)
+    //-   div(class="mb-4")
+    //-     img(
+    //-       src=account.avatar 
+    //-       style="width: 100px"
+    //-     )
+
+    if(account.status)
+      div(class="mb-4")
+        span Trạng thái: 
+        if(account.status === "active")
+          span(class="bagde bagde-success") Hoạt động 
+        else 
+          span(class="bagde bagde-danger") Dừng hoạt động
+
+    //- if(product.position)
+    //-   div(class="mb-4") Vị trí: <b>#{product.position}</b>
+
+    //- if(product.description)
+    //-   div(class="mb-4") !{product.description}
+    if(role.permissions.includes("products_edit"))    
+      a(
+        href=`${prefixAdmin}/accounts/edit/${account.id}`
+        class="btn btn-warning"
+      ) Chỉnh sửa  
+
+    script(src="admin/js/account.js")

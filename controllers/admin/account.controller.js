@@ -147,6 +147,29 @@ module.exports.deleteItem = async(req, res) => {
  
     res.redirect(req.get("referer"));
  }
+
+
+// [GET]/admin/accounts/detail/:id
+module.exports.detail = async(req, res) => {
+    try {
+      const find = {
+        deleted: false,
+        _id: req.params.id
+      };
+    
+      const account = await Account.findOne(find);
+    
+      res.render("admin/pages/accounts/detail", {
+        pageTitle: "Chi tiết tài khoản ",
+        account: account
+      });
+      
+    } catch (error) {
+      req.flash("error", "Chi tiết  sản phẩm lỗi");
+      res.redirect(`${systemConfig.prefixAdmin}/accounts`);
+       
+    }
+  }
  
 
 

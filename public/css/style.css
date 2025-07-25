@@ -160,7 +160,7 @@ header {
 /* Login and Register Pages */
 .auth-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #fad0c4 0%, #ffd1ff 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -212,7 +212,7 @@ header {
 }
 
 .auth-container .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #fad0c4 0%, #ffd1ff 100%);
   border: none;
   border-radius: 10px;
   padding: 12px 30px;

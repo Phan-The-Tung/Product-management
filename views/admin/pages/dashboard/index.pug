@@ -2,58 +2,135 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 
 block main
-  h1 Trang tổng quan
+  h1.mb-4.text-center.text-primary Trang tổng quan
 
-  //- +alert-error(5000)
-  //- +alert-success(5000)
+  .row.justify-content-center
+    .col-md-3.mb-3
+      .card.shadow.rounded-lg.border-0.text-white(style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)")
+        .card-body.text-center
+          i.fas.fa-users.fa-2x.mb-2
+          h5.card-title.mt-2 Tổng tài khoản
+          h2.font-weight-bold #{statistic.account.total}
+    .col-md-3.mb-3
+      .card.shadow.rounded-lg.border-0.text-white(style="background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%)")
+        .card-body.text-center
+          i.fas.fa-boxes.fa-2x.mb-2
+          h5.card-title.mt-2 Tổng sản phẩm
+          h2.font-weight-bold #{statistic.product.total}
+    .col-md-3.mb-3
+      .card.shadow.rounded-lg.border-0.text-white(style="background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%)")
+        .card-body.text-center
+          i.fas.fa-shopping-cart.fa-2x.mb-2
+          h5.card-title.mt-2 Tổng đơn hàng
+          h2.font-weight-bold #{statistic.order.total}
+    .col-md-3.mb-3
+      .card.shadow.rounded-lg.border-0.text-white(style="background: linear-gradient(135deg, #f857a6 0%, #ff5858 100%)")
+        .card-body.text-center
+          i.fas.fa-coins.fa-2x.mb-2
+          h5.card-title.mt-2 Tổng doanh thu
+          h2.font-weight-bold #{statistic.order.totalRevenue.toLocaleString('vi-VN')} ₫
 
   .row.mt-4
-    .col-12
-      .card.mb-4
-        .card-header Thông tin tài khoản
-        .card-body
-          if (user.avatar)
-            img(
-              src=user.avatar,
-              style="height: 100px;margin-bottom: 15px;",
-              alt="Avatar"
-            )
-          if (user.fullName)
-            p Họ tên: 
-              b #{user.fullName}
-          if (user.email)
-            p Email: 
-              b #{user.email}
-          if (user.phone)
-            p Số điện thoại: 
-              b #{user.phone}
-          if (role && role.title)
-            p Phân quyền: 
-              b #{role.title}
+    .col-md-6
+      .card.shadow.rounded-lg
+        .card-header.bg-white.font-weight-bold Top 5 sản phẩm bán chạy
+        .card-body.p-0
+          if topProducts && topProducts.length
+            table.table.table-hover.mb-0
+              thead.thead-light
+                tr
+                  th.text-center STT
+                  th.text-center Ảnh
+                  th Tên sản phẩm
+              tbody
+                each product, idx in topProducts
+                  tr
+                    td.text-center #{idx+1}
+                    td.text-center: img(src=product.thumbnail, style="height:40px;border-radius:8px;")
+                    td #{product.title}
+          else
+            p.text-muted.text-center Chưa có dữ liệu
+    .col-md-6
+      .card.shadow.rounded-lg
+        .card-header.bg-white.font-weight-bold Top 5 đơn hàng mới nhất
+        .card-body.p-0
+          if latestOrders && latestOrders.length
+            table.table.table-hover.mb-0
+              thead.thead-light
+                tr
+                  th Mã đơn
+                  th Khách hàng
+                  th Tổng tiền
+                  th Ngày tạo
+                  th Trạng thái
+              tbody
+                each order in latestOrders
+                  tr
+                    td #{order._id}
+                    td #{order.userInfo && order.userInfo.fullName ? order.userInfo.fullName : 'Ẩn'}
+                    td #{order.totalPrice.toLocaleString('vi-VN')} ₫
+                    td #{order.createdAt.toLocaleString('vi-VN')}
+                    td
+                      if order.status == 'pending'
+                        span.badge.badge-warning Chờ xử lý
+                      else if order.status == 'processing'
+                        span.badge.badge-info Đang xử lý
+                      else if order.status == 'shipped'
+                        span.badge.badge-primary Đã gửi hàng
+                      else if order.status == 'delivered'
+                        span.badge.badge-success Đã giao
+                      else if order.status == 'cancelled'
+                        span.badge.badge-danger Đã hủy
+          else
+            p.text-muted.text-center Chưa có dữ liệu
 
-    .col-6 
-      .card.mb-4 
-        .card-header Danh mục sản phẩm 
-        .card-body 
-          p Số lượng: <b>#{statistic.categoryProduct.total}</b> 
-          p Hoạt động: <b>#{statistic.categoryProduct.active}</b> 
-          p Dừng hoạt động: <b>#{statistic.categoryProduct.inactive}</b> 
+  //- .row.mt-4
+  //-   .col-12
+  //-     .card.mb-4
+  //-       .card-header Thông tin tài khoản
+  //-       .card-body
+  //-         if (user.avatar)
+  //-           img(
+  //-             src=user.avatar,
+  //-             style="height: 100px;margin-bottom: 15px;",
+  //-             alt="Avatar"
+  //-           )
+  //-         if (user.fullName)
+  //-           p Họ tên: 
+  //-             b #{user.fullName}
+  //-         if (user.email)
+  //-           p Email: 
+  //-             b #{user.email}
+  //-         if (user.phone)
+  //-           p Số điện thoại: 
+  //-             b #{user.phone}
+  //-         if (role && role.title)
+  //-           p Phân quyền: 
+  //-             b #{role.title}
 
-    .col-6 
-      .card.mb-4 
-        .card-header Sản phẩm 
-        .card-body 
-          p Số lượng: <b>5</b> 
-          p Hoạt động: <b>5</b> 
-          p Dừng hoạt động: <b>5</b> 
+  //-   .col-6 
+  //-     .card.mb-4 
+  //-       .card-header Danh mục sản phẩm 
+  //-       .card-body 
+  //-         p Số lượng: <b>#{statistic.categoryProduct.total}</b> 
+  //-         p Hoạt động: <b>#{statistic.categoryProduct.active}</b> 
+  //-         p Dừng hoạt động: <b>#{statistic.categoryProduct.inactive}</b> 
 
-    .col-6 
-      .card.mb-4 
-        .card-header Tài khoản admin
-        .card-body 
-          p Số lượng: <b>5</b> 
-          p Hoạt động: <b>5</b> 
-          p Dừng hoạt động: <b>5</b> 
+  //-   .col-6 
+  //-     .card.mb-4 
+  //-       .card-header Sản phẩm 
+  //-       .card-body 
+  //-         p Số lượng: <b>5</b> 
+  //-         p Hoạt động: <b>5</b> 
+  //-         p Dừng hoạt động: <b>5</b> 
 
+  //-   .col-6 
+  //-     .card.mb-4 
+  //-       .card-header Tài khoản admin
+  //-       .card-body 
+  //-         p Số lượng: <b>5</b> 
+  //-         p Hoạt động: <b>5</b> 
+  //-         p Dừng hoạt động: <b>5</b> 
 
-
+ 
+ 
