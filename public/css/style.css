@@ -739,4 +739,211 @@ header {
     max-width: 200px;
   }
 }
-  
+
+
+/* Chat */
+/* General Chat Container */
+.chat {
+  max-width: 400px;
+  margin: auto;
+  background: #f7f7f7;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Message Styling */
+/* General Chat Container */
+.chat {
+  max-width: 400px;
+  margin: auto;
+  background: #f7f7f7;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Message Styling */
+.inner-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  max-height: 500px; /* Giới hạn chiều cao của khung chat */
+  overflow-y: auto; /* Cho phép cuộn khi nội dung quá dài */
+  scrollbar-width: thin; /* Làm thanh cuộn nhỏ hơn */
+  scrollbar-color: #ff69b4 #f0f0f0; /* Màu thanh cuộn */
+}
+
+/* Ẩn thanh cuộn trên Chrome, Edge, Safari */
+.inner-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.inner-body::-webkit-scrollbar-thumb {
+  background-color: #ff69b4;
+  border-radius: 10px;
+}
+
+.inner-body::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+}
+
+.inner-incoming,
+.inner-outgoing {
+  display: flex;
+  align-items: flex-start;
+  max-width: 75%;
+}
+
+.inner-incoming {
+  align-self: flex-start;
+  flex-direction: column;
+}
+
+.inner-outgoing {
+  align-self: flex-end;
+  flex-direction: column;
+  background: #ff69b4;
+  color: white;
+  border-radius: 15px;
+  padding: 10px 15px;
+}
+
+.inner-incoming .inner-content {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 10px 15px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.inner-name {
+  font-size: 12px;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+/* Input Section */
+.inner-foot {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #ddd;
+  padding: 10px;
+}
+
+.inner-foot form {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.inner-foot input {
+  flex: 9;
+  min-height: 40px; /* Chiều cao tối thiểu */
+  max-height: 150px; /* Chiều cao tối đa */
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  resize: none; /* Không cho phép thay đổi kích thước bằng tay */
+  overflow-y: auto; /* Hiển thị thanh cuộn khi nội dung quá dài */
+  word-wrap: break-word; /* Tự động xuống dòng */
+  white-space: pre-wrap; /* Đảm bảo xuống dòng khi nhập nhiều */
+}
+
+/* Tạo thanh cuộn mỏng cho ô nhập */
+.inner-foot input::-webkit-scrollbar {
+  width: 6px;
+}
+
+.inner-foot input::-webkit-scrollbar-thumb {
+  background-color: #ff69b4;
+  border-radius: 10px;
+}
+
+.inner-foot input::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+}
+
+.inner-foot button {
+  flex: 1;
+  background: #ff69b4;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  cursor: pointer;
+}
+/* End chat */
+
+.tooltip {
+  visibility: hidden;
+}
+.tooltip.shown {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Typing */
+.inner-list-typing {
+  margin-top: 10px;
+}
+
+.box-typing {
+  display: flex;
+  flex-direction: column; /* Để inner-dots nằm dưới inner-name */
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.inner-name {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.inner-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.inner-dots span {
+  width: 5px;
+  height: 5px;
+  background-color: #ff69b4; /* Màu hồng */
+  border-radius: 50%;
+  animation: blink 1.4s infinite;
+}
+
+.inner-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.inner-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+
+/* End Typing */

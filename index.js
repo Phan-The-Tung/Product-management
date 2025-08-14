@@ -23,12 +23,10 @@ database.connect();
 const app = express();
 const port = process.env.PORT;
 
-//Socket
-// const server = http.createServer(app);
-// const io = new Server(server);
-// io.on("connection", (socket) => {
-//     console.log("thanhf coong");
-// })
+//SocketIO
+const server = http.createServer(app);
+const io = new Server(server);
+global._io = io;
 
 app.use(methodOverride("_method"));
 
@@ -38,7 +36,7 @@ app.use(bodyParser.json());
 
 
 // app.set("views", `${_dirname}/views`);
-app.set("views", "./views");
+app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 
 app.use(cookieParser("keyboard cat"));
@@ -58,17 +56,12 @@ app.use("/tinymce", express.static(path.join("node_modules", "tinymce")));
 app.locals.moment = moment;
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 app.locals.count = 0;
-app.use(express.static("public"));
+app.use(express.static(`${__dirname}/public`));
 
 route(app);
 routeAdmin(app);
 
-// 404 Error Handler - Must be last
-// app.get("*", (req, res) => {
-//     res.status(404).render("client/pages/errors/404", {
-//         pageTitle: "404 - Trang không tồn tại" 
-//     });
-// });
+ 
 
 app.use((req, res, next) => {
     res.status(404).render("client/pages/errors/404", {
@@ -76,6 +69,6 @@ app.use((req, res, next) => {
     });
 });
 
-app.listen(port, () =>{
+server.listen(port, () =>{
     console.log(`App listening on port ${port}`);
 });
