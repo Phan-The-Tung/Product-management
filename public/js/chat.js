@@ -3,7 +3,7 @@ import * as Popper from "https://cdn.jsdelivr.net/npm/@popperjs/core@2/dist/esm/
 
 
 // file-upload-with-preview
-// const upload = new FileUploadWithPreview.FileUploadWithPreview('upload-images', {
+// const upload = new FileUploadWithPreview('upload-images', {
 //   multiple: true,
 //   maxFileCount: 6
 // });
