@@ -1,6 +1,15 @@
 import * as Popper from "https://cdn.jsdelivr.net/npm/@popperjs/core@2/dist/esm/index.js";
 
 
+
+// file-upload-with-preview
+// const upload = new FileUploadWithPreview.FileUploadWithPreview('upload-images', {
+//   multiple: true,
+//   maxFileCount: 6
+// });
+
+// End file-upload-with-preview
+
 // CLIENT_SEND_MESSAGE
 const formSendData = document.querySelector(".chat .inner-form");
 if (formSendData) {
@@ -132,12 +141,12 @@ if(elementListTyping) {
                 `;
                 elementListTyping.appendChild(boxTyping);
                 bodyChat.scrollTop = bodyChat.scrollHeight;
-            } else {
-              const boxTypingRemove = elementListTyping.querySelector(`[user-id="${data.userId}"]`);
-              if(boxTypingRemove) {
-                  elementListTyping.removeChild(boxTypingRemove);
-              }
-            }
+            }  
+        }  else {
+          const boxTypingRemove = elementListTyping.querySelector(`[user-id="${data.userId}"]`);
+          if(boxTypingRemove) {
+              elementListTyping.removeChild(boxTypingRemove);
+          }
         }
     });
 }
