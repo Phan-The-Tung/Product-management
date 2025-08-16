@@ -3,4 +3,9 @@
     a.btn.btn-primary.m-1(href='/users/not-friend') Danh sách người dùng
     a.btn.btn-primary.m-1(href='/users/friends') Danh sách bạn bè
     a.btn.btn-primary.m-1(href='/users/request') Lời mời đã gửi
-    a.btn.btn-primary.m-1(href='/users/accept') Lời mời kết bạn
+    a.btn.btn-primary.m-1(href='/users/accept') 
+      | Lời mời kết bạn
+      span(
+        class="badge badge-light"
+        badge-users-accept
+      ) #{user.acceptFriends.length}
